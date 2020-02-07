@@ -1,6 +1,7 @@
 // Fire Particle System - 5611 Assignment 1
 import java.util.Random;
 
+
 Random r = new Random();
 ArrayList<Particle> list = new ArrayList<Particle>();
 boolean overSpot = false;
@@ -35,8 +36,9 @@ void draw(){
   rect(-10,0,20,175);
   popMatrix();
   System.out.println(list.size());
+  if(list.size() < 5000){
  for(int i = 0; i < 30; i++){
-   if(!lock || (r.nextInt(6) == 1)){
+   if(!lock || (r.nextInt(6) == 1) ){
   Particle part = new Particle();
   list.add(part);
   
@@ -46,6 +48,7 @@ void draw(){
   list.add(part3);
   }
  }
+  }
   for(int i = list.size() -1; i >= 0; i--){
   moveParticle(list.get(i), .15);
   if(list.get(i).isDead){
@@ -54,7 +57,7 @@ void draw(){
   //translate(list.get(i).pos.x,list.get(i).pos.y,list.get(i).pos.z); // update position and particle values
   if(list.size() > 10){
   fill(list.get(i).currColor);
-  ellipse(list.get(i).pos.x ,list.get(i).pos.y , 10,10);
+  ellipse(list.get(i).pos.x ,list.get(i).pos.y , 11,11);
   }
   }
  
@@ -68,19 +71,19 @@ void draw(){
 }
 
 class Particle{
-  PVector pos;
-  PVector vel;
-  PVector accel; 
+  Vect pos;
+  Vect vel;
+  Vect accel; 
   int direction;
   color currColor;
   float lifespan;
   float transparency;
   boolean isDead;
   Particle(){
-    pos = new PVector();
+    pos = new Vect();
     randSpawn(pos);
-    vel = new PVector(r.nextFloat() + -.5, -2 , r.nextFloat() + -.5 );
-    accel = new PVector(0, 0, 0 );
+    vel = new Vect(r.nextFloat() + -.5, -2 , r.nextFloat() + -.5 );
+    accel = new Vect(0, 0, 0 );
     currColor = color(225 - (r.nextInt(60) + -30),225 - (r.nextInt(60) + -30),0);
     lifespan = 300 - r.nextInt(50);
     isDead = false;
@@ -94,7 +97,7 @@ class Particle{
 
 }
 
-void randSpawn(PVector pos){
+void randSpawn(Vect pos){
   float rad = 80 * sqrt(r.nextFloat());
   float theta = 2 * PI * r.nextFloat();
   float x = rad * sin(theta);
@@ -106,13 +109,6 @@ void randSpawn(PVector pos){
 
 void moveParticle(Particle part, float dt){
   
- //float xVal = r.nextFloat();
- //if(xVal >= .5){o
- // vec.x = vec.x + .1;
- //}
- //else{
- //  vec.x = vec.x - .1;
- //}
  part.lifespan -=3.5;
  if(lock){
   part.lifespan -= 5; 
@@ -137,8 +133,8 @@ void moveParticle(Particle part, float dt){
   part.currColor = color(red(part.currColor) ,green(part.currColor) -4 , 0, alpha(part.currColor) -4) ;
    }
  }
-  part.vel = part.vel.add(part.accel);
-  part.pos = part.pos.add(part.vel);
+   part.vel.add(part.accel);
+   part.pos.add(part.vel);
   
 }
 

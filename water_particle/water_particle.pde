@@ -1,9 +1,9 @@
-// Fire Particle System - 5611 Assignment 1
+// Water Particle System - 5611 Assignment 1
 import java.util.Random;
 
 Random r = new Random();
 ArrayList<Particle> list = new ArrayList<Particle>();
-PVector center = new PVector(200,400,0);
+
 void setup(){
  size(600,600, P3D); 
  noStroke();
@@ -12,23 +12,15 @@ void setup(){
 
 void draw(){
   float startFrame = millis(); 
-  background(0,0,0); 
+  background(173,216,230); 
  // System.out.println(list.size());
-  pushMatrix();
-  translate(200,400, 0);
   fill(0,100,0);
-  sphere(30);
-  popMatrix(); 
-  
-  translate(50,100);
-  rotateZ(PI/2);
-
- 
- for(int i = 0; i < 5; i++){
-  
+  rect(-40,100,90,20);
+  rect(0,400,600,200);
+  translate(80, 120);
   Particle part = new Particle();
   list.add(part);
-  }
+  
   
  
   for(int i = list.size() -1; i >= 0; i--){
@@ -39,7 +31,7 @@ void draw(){
   //translate(list.get(i).pos.x,list.get(i).pos.y,list.get(i).pos.z); // update position and particle values
   if(list.size() > 10){
   fill(list.get(i).currColor);
-  ellipse(list.get(i).pos.x ,list.get(i).pos.y , 10,10);
+  ellipse(list.get(i).pos.x ,list.get(i).pos.y ,6,6);
   }
   }
  
@@ -64,9 +56,9 @@ class Particle{
   Particle(){
     pos = new PVector();
     randSpawn(pos);
-    vel = new PVector(0,-.5,0);
-    accel = new PVector(.01,0,0 );
-    currColor = color(0,0,225 - (r.nextInt(60) + -30));
+    vel = new PVector(.2 +r.nextFloat(),0,0);
+    accel = new PVector(0,.02,0 );
+    currColor = color(0,r.nextInt(10),200 - (r.nextInt(100) + -50));
     lifespan = 300 - r.nextInt(50);
     isDead = false;
     if(pos.x >= 0){
@@ -90,37 +82,18 @@ void randSpawn(PVector pos){
 }
 
 void moveParticle(Particle part, float dt){
-  if((center.y - (-1 * part.pos.y + 250)) <=20 && (center.x - part.pos.x) <=15  ){
-   part.vel =  part.vel.mult(-.8);
- }
+
  
  part.lifespan -=3.5;
-if(part.pos.y > 600){
- part.isDead = true;
+if(part.pos.y >= 400){
+ part.vel.y = part.vel.y * -.3;
 }
- // if (part.lifespan < 0){ // particle dies
- //   part.isDead = true;
- // }
- // else if(part.lifespan < 280){
- //   part.vel.x = part.vel.x *((3 *r.nextFloat()) + -1.5);
- //   part.vel.z = part.vel.z *((3 * r.nextFloat()) + -1.5);
-    
- // }
- // if(part.lifespan < 90){
- //   float val = r.nextFloat();
- //   if(val > .5){
- //  part.currColor = color(100,alpha(part.currColor) - 4);
-   
- //   }
- //}
- //else {
- //  if(r.nextFloat() > .15){
- // part.currColor = color(red(part.currColor) ,green(part.currColor) -4 , 0, alpha(part.currColor) -4) ;
- //  }
- //}
- 
- //System.out.println(PVector.dist(part.pos,center));
- 
+part.pos = part.pos.add(part.vel);
+if(part.pos.y >= 400){
+  part.isDead =true;
+  
+}
+
   part.vel = part.vel.add(part.accel);
   part.pos = part.pos.add(part.vel);
   
