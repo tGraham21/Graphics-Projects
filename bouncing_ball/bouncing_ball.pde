@@ -69,6 +69,7 @@ void drawScene(){
 }
 
 void draw(){
+  
  computePhysics(.2); 
  drawScene();  
  squash_flag = 0;
