@@ -1,7 +1,4 @@
-//2D Rotational Dynamics
-//Ball on Spring (damped) - 2D Motion
-//CSCI 5611 Thread Sample Code
-// Stephen J. Guy <sjguy@umn.edu>
+// Trevor Graham - 5611 check in
 import java.util.Random;
 
 void setup() {
